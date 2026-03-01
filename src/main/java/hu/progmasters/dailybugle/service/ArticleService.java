@@ -1,0 +1,144 @@
+package hu.progmasters.dailybugle.service;
+
+
+import hu.progmasters.dailybugle.domain.Article;
+import hu.progmasters.dailybugle.domain.Rating;
+import hu.progmasters.dailybugle.domain.Status;
+import hu.progmasters.dailybugle.dto.incoming.ArticleCommand;
+import hu.progmasters.dailybugle.dto.outgoing.ArticleDetail;
+import hu.progmasters.dailybugle.dto.outgoing.ArticlesListItem;
+import hu.progmasters.dailybugle.dto.outgoing.CommentDetail;
+import hu.progmasters.dailybugle.exception.ArticleNotFoundException;
+import hu.progmasters.dailybugle.repository.ArticleRepository;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@Transactional
+@Slf4j
+public class ArticleService {
+
+
+    private final ArticleRepository articleRepository;
+
+    private final ModelMapper modelMapper;
+
+
+    public ArticleService(ArticleRepository articleRepository, ModelMapper modelMapper) {
+        this.articleRepository = articleRepository;
+        this.modelMapper = modelMapper;
+    }
+
+    public void createArticle(ArticleCommand articleCommand) {
+
+        Article article = modelMapper.map(articleCommand, Article.class);
+        articleRepository.save(article);
+        log.info("Article created: {}", article);
+
+    }
+
+
+    public List<ArticlesListItem> getAllArticles() {
+        return articleRepository.findByStatus(Status.ACTIVE)
+                .stream()
+                .map(this::mapToListItem)
+                .toList();
+    }
+
+
+    public ArticleDetail getArticleById(Long id){
+        Article article = findArticleById(id);
+
+        ArticleDetail result =
+                modelMapper.map(article, ArticleDetail.class);
+
+        List<CommentDetail> comments = article.getComments().stream()
+                .map(comment ->
+                        modelMapper.map(comment, CommentDetail.class))
+                .toList();
+
+        result.setComments(comments);
+
+        long ratingCount = article.getRatings().size();
+        result.setRatingCount(ratingCount);
+        result.setAverageRating(calculateAverageRating(article));
+
+        return result;
+    }
+
+    public Article findArticleById(Long id) {
+        return articleRepository.findByIdAndStatus(id, Status.ACTIVE)
+                .orElseThrow(() -> new ArticleNotFoundException("No article found with id: " + id));
+    }
+
+    public  List<ArticlesListItem> getArticlesByAuthor(String author){
+
+        return articleRepository.findByAuthorAndStatus(author, Status.ACTIVE)
+                .stream()
+                .map(this::mapToListItem)
+                .toList();
+
+    }
+
+
+
+    private ArticlesListItem mapToListItem(Article article) {
+
+        ArticlesListItem result =
+                modelMapper.map(article, ArticlesListItem.class);
+
+        result.setCommentCount((long) article.getComments().size());
+
+        long ratingCount = article.getRatings().size();
+        result.setRatingCount(ratingCount);
+        result.setAverageRating(calculateAverageRating(article));
+
+        return result;
+    }
+
+
+    public void updateArticleById(Long id, ArticleCommand articleCommand) {
+        Article article = findArticleById(id);
+        article.setAuthor(articleCommand.getAuthor());
+        article.setTitle(articleCommand.getTitle());
+        article.setSynopsis(articleCommand.getSynopsis());
+        article.setContent(articleCommand.getContent());
+        articleRepository.save(article);
+        log.info("Article updated: {}", article);
+    }
+
+
+    public void deleteArticleById(Long id) {
+        Article article = findArticleById(id);
+        article.setStatus(Status.DELETED);
+        log.info("Article with id {} deleted", id);
+    }
+
+
+    private BigDecimal calculateAverageRating(Article article) {
+
+        List<Rating> ratings = article.getRatings();
+
+        if (ratings.isEmpty()) {
+            return BigDecimal.ZERO.setScale(2);
+        }
+
+        double avg = ratings.stream()
+                .mapToInt(Rating::getValue)
+                .average()
+                .orElse(0.0);
+
+        return BigDecimal.valueOf(avg)
+                .setScale(2, RoundingMode.HALF_UP);
+    }
+
+
+
+}

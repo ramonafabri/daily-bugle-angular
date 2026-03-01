@@ -1,0 +1,75 @@
+###
+POST http://localhost:8080/daily-bugle/api/articles
+Content-Type: application/json
+
+
+{
+  "author": "Kovács Péter",
+  "title": "A digitális jövő küszöbén",
+  "synopsis": "Egy rövid áttekintés arról, hogyan formálja át a mesterséges intelligencia a mindennapi életünket.",
+  "content": "A mesterséges intelligencia az elmúlt években rohamos fejlődésen ment keresztül. Az önvezető autóktól kezdve az orvosi diagnosztikán át egészen az oktatásig számos területen jelen van. A technológia fejlődése új lehetőségeket és kihívásokat egyaránt teremt a társadalom számára."}
+
+
+###
+GET http://localhost:8080/daily-bugle/api/articles
+
+###
+GET http://localhost:8080/daily-bugle/api/articles/2
+
+###
+PUT http://localhost:8080/daily-bugle/api/articles/1
+Content-Type: application/json
+
+{
+  "author": "Peter Parker",
+  "title": "Spider-Man Returns UPDATED",
+  "synopsis": "Updated synopsis.",
+  "content": "Updated content..."
+}
+
+###
+DELETE http://localhost:8080/daily-bugle/api/articles/1
+
+###
+POST http://localhost:8080/daily-bugle/api/comments
+Content-Type: application/json
+
+{
+  "author": "J. Jonah Jameson",
+  "content": "This is fake news!",
+  "articleId": 2
+}
+
+###
+POST http://localhost:8080/daily-bugle/api/ratings
+Content-Type: application/json
+
+{
+  "articleId": 1,
+  "value": 5
+}
+
+###
+POST  http://localhost:8080/daily-bugle/api/articles
+Content-Type: application/json
+
+{
+"author": "Peter Parker",
+"title": "Spider-Man Returns",
+"synopsis": "Spider-Man is back in action.",
+"content": "Full article content here..."
+}
+
+###
+POST http://localhost:8080/daily-bugle/api/ratings
+Content-Type: application/json
+
+{
+  "articleId": 2,
+  "value": 3
+}
+
+###
+GET http://localhost:8080/daily-bugle/api/articles/author/Kov%C3%A1cs%20P%C3%A9ter
+
+
