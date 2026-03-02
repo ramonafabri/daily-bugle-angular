@@ -1,15 +1,15 @@
 package hu.progmasters.dailybugle.service;
 
 
-import hu.progmasters.dailybugle.domain.Article;
-import hu.progmasters.dailybugle.domain.Rating;
-import hu.progmasters.dailybugle.domain.Status;
+import hu.progmasters.dailybugle.domain.*;
 import hu.progmasters.dailybugle.dto.incoming.ArticleCommand;
 import hu.progmasters.dailybugle.dto.outgoing.ArticleDetail;
 import hu.progmasters.dailybugle.dto.outgoing.ArticlesListItem;
 import hu.progmasters.dailybugle.dto.outgoing.CommentDetail;
+import hu.progmasters.dailybugle.exception.AccessDeniedException;
 import hu.progmasters.dailybugle.exception.ArticleNotFoundException;
 import hu.progmasters.dailybugle.repository.ArticleRepository;
+import hu.progmasters.dailybugle.security.CurrentUserProvider;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -30,18 +30,29 @@ public class ArticleService {
 
     private final ModelMapper modelMapper;
 
+    private final CurrentUserProvider currentUserProvider;
 
-    public ArticleService(ArticleRepository articleRepository, ModelMapper modelMapper) {
+
+    public ArticleService(ArticleRepository articleRepository, ModelMapper modelMapper, CurrentUserProvider currentUserProvider) {
         this.articleRepository = articleRepository;
         this.modelMapper = modelMapper;
+        this.currentUserProvider = currentUserProvider;
     }
 
     public void createArticle(ArticleCommand articleCommand) {
 
-        Article article = modelMapper.map(articleCommand, Article.class);
-        articleRepository.save(article);
-        log.info("Article created: {}", article);
+        User currentUser = currentUserProvider.getCurrentUser();
 
+        if (currentUser.getRole() != Role.JOURNALIST) {
+            throw new AccessDeniedException("Only journalists can create articles");
+        }
+
+        Article article = modelMapper.map(articleCommand, Article.class);
+        article.setAuthor(currentUser);
+
+        articleRepository.save(article);
+
+        log.info("Article created by user: {}", currentUser.getId());
     }
 
 
@@ -59,9 +70,10 @@ public class ArticleService {
         ArticleDetail result =
                 modelMapper.map(article, ArticleDetail.class);
 
+        result.setAuthor(article.getAuthor().getDisplayName());
+
         List<CommentDetail> comments = article.getComments().stream()
-                .map(comment ->
-                        modelMapper.map(comment, CommentDetail.class))
+                .map(comment -> modelMapper.map(comment, CommentDetail.class))
                 .toList();
 
         result.setComments(comments);
@@ -78,9 +90,10 @@ public class ArticleService {
                 .orElseThrow(() -> new ArticleNotFoundException("No article found with id: " + id));
     }
 
-    public  List<ArticlesListItem> getArticlesByAuthor(String author){
+    public  List<ArticlesListItem> getArticlesByAuthor(Long authorId){
 
-        return articleRepository.findByAuthorAndStatus(author, Status.ACTIVE)
+        return articleRepository
+                .findByAuthorIdAndStatus(authorId, Status.ACTIVE)
                 .stream()
                 .map(this::mapToListItem)
                 .toList();
@@ -91,8 +104,9 @@ public class ArticleService {
 
     private ArticlesListItem mapToListItem(Article article) {
 
-        ArticlesListItem result =
-                modelMapper.map(article, ArticlesListItem.class);
+        ArticlesListItem result = modelMapper.map(article, ArticlesListItem.class);
+
+        result.setAuthor(article.getAuthor().getDisplayName());
 
         result.setCommentCount((long) article.getComments().size());
 
@@ -106,12 +120,12 @@ public class ArticleService {
 
     public void updateArticleById(Long id, ArticleCommand articleCommand) {
         Article article = findArticleById(id);
-        article.setAuthor(articleCommand.getAuthor());
+
         article.setTitle(articleCommand.getTitle());
         article.setSynopsis(articleCommand.getSynopsis());
         article.setContent(articleCommand.getContent());
-        articleRepository.save(article);
-        log.info("Article updated: {}", article);
+
+        log.info("Article updated: {}", article.getId());
     }
 
 

@@ -1,48 +1,69 @@
 ###
-POST http://localhost:8080/daily-bugle/api/articles
-Content-Type: application/json
-
-
-{
-  "author": "Kovács Péter",
-  "title": "A digitális jövő küszöbén",
-  "synopsis": "Egy rövid áttekintés arról, hogyan formálja át a mesterséges intelligencia a mindennapi életünket.",
-  "content": "A mesterséges intelligencia az elmúlt években rohamos fejlődésen ment keresztül. Az önvezető autóktól kezdve az orvosi diagnosztikán át egészen az oktatásig számos területen jelen van. A technológia fejlődése új lehetőségeket és kihívásokat egyaránt teremt a társadalom számára."}
-
-
-###
-GET http://localhost:8080/daily-bugle/api/articles
-
-###
-GET http://localhost:8080/daily-bugle/api/articles/2
-
-###
-PUT http://localhost:8080/daily-bugle/api/articles/1
+POST http://localhost:8080/daily-bugle/api/users/register
 Content-Type: application/json
 
 {
-  "author": "Peter Parker",
-  "title": "Spider-Man Returns UPDATED",
-  "synopsis": "Updated synopsis.",
-  "content": "Updated content..."
+  "email": "journalist@test.com",
+  "password": "1234",
+  "displayName": "Peter Parker",
+  "role": "JOURNALIST"
+}
+
+
+###
+POST http://localhost:8080/daily-bugle/api/users/register
+Content-Type: application/json
+
+{
+  "email": "reader@test.com",
+  "password": "1234",
+  "displayName": "Mary Jane",
+  "role": "READER"
 }
 
 ###
-DELETE http://localhost:8080/daily-bugle/api/articles/1
+POST http://localhost:8080/daily-bugle/api/users/login
+Content-Type: application/json
+
+{
+  "email": "journalist@test.com",
+  "password": "1234"
+}
+
+###
+POST http://localhost:8080/daily-bugle/api/users/login
+Content-Type: application/json
+
+{
+  "email": "reader@test.com",
+  "password": "1234"
+}
+
+###
+POST http://localhost:8080/daily-bugle/api/articles
+Content-Type: application/json
+X-User-Id: 1
+
+{
+  "title": "Daily Bugle Breaking News",
+  "synopsis": "Something big happened",
+  "content": "Full article content here..."
+}
 
 ###
 POST http://localhost:8080/daily-bugle/api/comments
 Content-Type: application/json
+X-User-Id: 2
 
 {
-  "author": "J. Jonah Jameson",
-  "content": "This is fake news!",
-  "articleId": 2
+  "articleId": 1,
+  "content": "Great article!"
 }
 
 ###
 POST http://localhost:8080/daily-bugle/api/ratings
 Content-Type: application/json
+X-User-Id: 2
 
 {
   "articleId": 1,
@@ -50,26 +71,17 @@ Content-Type: application/json
 }
 
 ###
-POST  http://localhost:8080/daily-bugle/api/articles
-Content-Type: application/json
-
-{
-"author": "Peter Parker",
-"title": "Spider-Man Returns",
-"synopsis": "Spider-Man is back in action.",
-"content": "Full article content here..."
-}
-
-###
 POST http://localhost:8080/daily-bugle/api/ratings
 Content-Type: application/json
+X-User-Id: 2
 
 {
-  "articleId": 2,
-  "value": 3
+  "articleId": 1,
+  "value": 4
 }
 
 ###
-GET http://localhost:8080/daily-bugle/api/articles/author/Kov%C3%A1cs%20P%C3%A9ter
+GET http://localhost:8080/daily-bugle/api/users/2
 
-
+###
+GET http://localhost:8080/daily-bugle/api/users/1

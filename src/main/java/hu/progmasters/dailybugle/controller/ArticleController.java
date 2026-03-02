@@ -63,10 +63,10 @@ public class ArticleController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/author/{author}")
-    public ResponseEntity<List<ArticlesListItem>> getArticlesByAuthor(@PathVariable String author) {
-        log.info("Get articles by author: {}", author);
-        List<ArticlesListItem> result = articleService.getArticlesByAuthor(author);
+    @GetMapping("/author/{authorId}")
+    public ResponseEntity<List<ArticlesListItem>> getArticlesByAuthor(@PathVariable Long authorId) {
+        log.info("Get articles by author: {}", authorId);
+        List<ArticlesListItem> result = articleService.getArticlesByAuthor(authorId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

@@ -1,6 +1,7 @@
 package hu.progmasters.dailybugle.dto.incoming;
 
 
+import hu.progmasters.dailybugle.domain.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,8 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CommentCommand {
 
-    @NotBlank(message = "Author cannot be blank")
-    private String author;
 
     @NotNull(message = "Article id cannot be null")
     private Long articleId;

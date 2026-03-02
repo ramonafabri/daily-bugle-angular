@@ -1,6 +1,7 @@
 package hu.progmasters.dailybugle.dto.outgoing;
 
 
+import hu.progmasters.dailybugle.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,5 +24,6 @@ public class ArticleDetail {
     private List<CommentDetail> comments;
     private BigDecimal averageRating;
     private long ratingCount;
+    private LocalDateTime publishAt;
 
 }

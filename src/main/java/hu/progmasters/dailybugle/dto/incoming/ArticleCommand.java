@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ArticleCommand {
 
-    @NotBlank(message = "Athor cannot be blank")
-    private String author;
 
     @NotBlank(message = "Title cannot be blank")
     private String title;
@@ -26,6 +24,6 @@ public class ArticleCommand {
     @NotBlank(message = "Content cannot be blank")
     private String content;
 
-
+    private LocalDateTime publishAt;
 
 }

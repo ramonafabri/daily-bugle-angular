@@ -20,4 +20,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     List<Article> findByAuthorAndStatus(String author, Status status);
 
+    List<Article> findByAuthorIdAndStatus(Long authorId, Status status);
+
+    List<Article> findByAuthor_IdOrderByCreatedAtDesc(Long userId);
+
 }
