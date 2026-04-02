@@ -1,2 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'bootstrap/dist/css/bootstrap.min.css';
+
+.bugle-navbar {
+  background: #d90404 !important;
+  border-bottom: none;
+  padding: 10px 40px;
+  backdrop-filter: blur(6px);
+}
+
+.bugle-navbar .navbar-brand {
+  color: white !important;
+
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+  font-weight: 300;
+
+  font-size: 16px;
+
+  letter-spacing: 0.5px;
+
+  opacity: 0.95;
+
+  text-transform: none;
+
+  transition: all 0.2s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  text-rendering: optimizeLegibility;
+}
+
+.bugle-navbar .navbar-brand:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+body {
+  font-family: 'Arial', sans-serif;
+}
+

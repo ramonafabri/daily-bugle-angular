@@ -6,6 +6,7 @@ import hu.progmasters.dailybugle.dto.incoming.ArticleCommand;
 import hu.progmasters.dailybugle.dto.outgoing.ArticleDetail;
 import hu.progmasters.dailybugle.dto.outgoing.ArticleFormInitData;
 import hu.progmasters.dailybugle.dto.outgoing.ArticlesListItem;
+import hu.progmasters.dailybugle.dto.outgoing.CategoryDetails;
 import hu.progmasters.dailybugle.service.ArticleService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -76,6 +78,20 @@ public class ArticleController {
         log.info("Get articles by category: {}", category);
         List<ArticlesListItem> result = articleService.getArticlesByCategory(category);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryDetails>> getCategories() {
+        log.info("Get categories");
+
+        List<CategoryDetails> list = Arrays.stream(Category.values())
+                .map(category -> new CategoryDetails(
+                        category.name(),
+                        category.getDisplayName()
+                ))
+                .toList();
+
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/by-keyword/{keyword}")
