@@ -13,8 +13,7 @@ import { ArticleCreate } from './components/article-create/article-create';
 import { Register } from './components/register/register';
 import { Login } from './components/login/login';
 import { authInterceptor } from './interceptors/auth-interceptor';
-import { ArticleSearch } from './components/article-search/article-search';
-import {NgOptimizedImage} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -25,10 +24,9 @@ import {NgOptimizedImage} from '@angular/common';
     ArticleDetail,
     ArticleCreate,
     Register,
-    Login,
-    ArticleSearch,
+    Login
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, FormsModule, NgOptimizedImage],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, FormsModule, NgOptimizedImage, CommonModule],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(withInterceptors([authInterceptor])),
