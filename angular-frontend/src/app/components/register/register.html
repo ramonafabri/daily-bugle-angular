@@ -1,0 +1,62 @@
+<div class="form-container">
+
+  <h2 class="form-title">Register</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <!-- EMAIL -->
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        formControlName="email">
+      <div class="error-text"
+           *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+        Invalid email
+      </div>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        formControlName="password">
+    </div>
+
+    <!-- DISPLAY NAME -->
+    <div class="mb-3">
+      <label class="form-label">Display Name</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="displayName">
+    </div>
+
+    <!-- ROLE -->
+    <div class="mb-3">
+      <label class="form-label">Role</label>
+
+      <select class="form-select" formControlName="role">
+        <option value="">Select role</option>
+
+        <option *ngFor="let role of roles" [value]="role">
+          {{ role }}
+        </option>
+      </select>
+
+    </div>
+
+    <!-- SUBMIT -->
+    <button
+      type="submit"
+      class="btn btn-dark"
+      [disabled]="registerForm.invalid">
+      Register
+    </button>
+
+  </form>
+
+</div>

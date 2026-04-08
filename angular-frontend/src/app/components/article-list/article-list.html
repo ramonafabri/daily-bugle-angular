@@ -1,0 +1,128 @@
+<div class="search-container">
+
+  <h2 class="section-title">Search Articles</h2>
+
+  <!-- MODE SWITCH -->
+  <div class="search-mode">
+
+    <button
+      class="mode-btn"
+      [class.active]="mode === 'keyword'"
+      (click)="mode = 'keyword'">
+      Keyword
+    </button>
+
+    <button
+      class="mode-btn"
+      [class.active]="mode === 'category'"
+      (click)="mode = 'category'">
+      Category
+    </button>
+
+  </div>
+
+  <!-- KEYWORD -->
+  @if (mode === 'keyword') {
+    <div class="search-row">
+
+      <input
+        type="text"
+        placeholder="Enter keyword..."
+        [(ngModel)]="keyword"
+        class="search-input" />
+
+      <button class="btn btn-dark" (click)="searchByKeyword()">
+        Search
+      </button>
+
+    </div>
+  }
+
+  <!-- CATEGORY -->
+  @if (mode === 'category') {
+    <div class="search-row">
+
+      <select [(ngModel)]="category" class="search-input">
+        <option value="">Select category</option>
+
+        @for (cat of categories; track cat.value) {
+          <option [value]="cat.value">
+            {{ cat.displayName }}
+          </option>
+        }
+
+      </select>
+
+      <button class="btn btn-dark" (click)="searchByCategory()">
+        Search
+      </button>
+
+    </div>
+  }
+
+</div>
+
+
+
+<div class="container mt-4">
+  <div class="row">
+
+    @for (article of articles; track article.id) {
+      <div class="col-md-6 col-lg-4 mb-4">
+
+        <div
+          class="article-card"
+          [routerLink]="['/article', article.id]">
+
+          <!-- TITLE -->
+          <h3 class="article-title">
+            {{ article.title }}
+          </h3>
+
+          <!-- SYNOPSIS -->
+          <p class="article-synopsis">
+            {{ article.synopsis }}
+          </p>
+
+          <!-- META -->
+          <div class="article-meta">
+            {{ article.author }}
+          </div>
+
+          <div class="article-meta">
+            <span class="category">
+              {{ article.category }}
+            </span>
+          </div>
+
+          <!-- STATS -->
+          <div class="article-stats">
+
+            <span class="stat-badge">
+              ⭐ {{ article.averageRating }}
+            </span>
+
+            <span class="stat-badge secondary">
+              {{ article.ratingCount }}
+            </span>
+
+            <span class="stat-badge secondary">
+              {{ article.commentCount }} comments
+            </span>
+
+          </div>
+
+          <!-- CTA -->
+          <a
+            class="read-more"
+            [routerLink]="['/article', article.id]">
+            Read more →
+          </a>
+
+        </div>
+
+      </div>
+    }
+
+  </div>
+</div>

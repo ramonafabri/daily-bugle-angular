@@ -1,0 +1,127 @@
+<div *ngIf="loading; else content">
+  <p>Loading article...</p>
+</div>
+
+<ng-template #content>
+  <div class="detail-container" *ngIf="article">
+
+    <!-- TITLE -->
+    <h1 class="detail-title">
+      {{ article.title }}
+    </h1>
+
+    <!-- META -->
+    <div class="detail-meta">
+      <span><strong>Author:</strong> {{ article.author }}</span>
+      <span><strong>Category:</strong> {{ article.category }}</span>
+      <span><strong>Published:</strong> {{ article.publishAt | date:'medium' }}</span>
+    </div>
+
+    <!-- STATS -->
+    <div class="rating-block">
+
+      <div class="rating-main">
+        ⭐ {{ article.averageRating | number:'1.1-2' }}
+      </div>
+
+      <div class="rating-count">
+        {{ article.ratingCount }} ratings
+      </div>
+
+    </div>
+
+    <!-- RATING -->
+    @if (authService.isLoggedIn() && !article.userRating) {
+      <div class="rating-box">
+
+        <h4>Rate this article</h4>
+
+        <div class="star-rating" (mouseleave)="hoveredRating = 0">
+          @for (star of [1,2,3,4,5]; track star) {
+            <span
+              (click)="rateArticle(star)"
+              (mouseenter)="hoveredRating = star"
+              [class.filled]="star <= (hoveredRating || article.userRating || 0)"
+              class="star"
+            >
+              ★
+            </span>
+          }
+        </div>
+
+      </div>
+    }
+
+    @if (article.userRating) {
+      <p class="user-rating">
+        Your rating: {{ article.userRating }} ⭐
+      </p>
+    }
+
+    <!-- KEYWORDS -->
+    <div class="keywords">
+      @for (keyword of article.keywords; track keyword) {
+        <span class="keyword-badge">
+          {{ keyword }}
+        </span>
+      }
+    </div>
+
+    <!-- SYNOPSIS -->
+    <div class="detail-section">
+      <h3>Synopsis</h3>
+      <p>{{ article.synopsis }}</p>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="detail-section">
+      <h3>Content</h3>
+      <p>{{ article.content }}</p>
+    </div>
+
+    <!-- COMMENTS -->
+    <div class="detail-section">
+      <h3>Comments</h3>
+
+      @if (article.comments.length) {
+        @for (comment of article.comments; track comment.id) {
+          <div class="comment-card">
+
+            <div class="comment-header">
+              <strong>{{ comment.author?.displayName }}</strong>
+              <small>{{ comment.createdAt | date:'short' }}</small>
+            </div>
+
+            <div class="comment-body">
+              {{ comment.content }}
+            </div>
+
+          </div>
+        }
+      } @else {
+        <p>No comments yet.</p>
+      }
+
+      @if (authService.isLoggedIn()) {
+        <div class="comment-form">
+
+          <textarea
+            [(ngModel)]="commentContent"
+            class="form-control"
+            rows="3"
+            placeholder="Write your comment...">
+          </textarea>
+
+          <button
+            class="btn btn-dark mt-2"
+            (click)="submitComment()">
+            Submit
+          </button>
+
+        </div>
+      }
+
+    </div>
+
+  </div>
+</ng-template>

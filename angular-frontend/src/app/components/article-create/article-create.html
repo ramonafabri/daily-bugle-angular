@@ -1,0 +1,85 @@
+<div class="form-container wide">
+
+  <h2 class="form-title">Create Article</h2>
+
+  <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+
+    <!-- TITLE -->
+    <div class="mb-3">
+      <label class="form-label">Title</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="title">
+    </div>
+
+    <!-- SYNOPSIS -->
+    <div class="mb-3">
+      <label class="form-label">Synopsis</label>
+      <textarea
+        class="form-control"
+        rows="3"
+        formControlName="synopsis">
+      </textarea>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="mb-3">
+      <label class="form-label">Content</label>
+      <textarea
+        class="form-control"
+        rows="6"
+        formControlName="content">
+      </textarea>
+    </div>
+
+    <!-- CATEGORY -->
+    <div class="mb-3">
+      <label class="form-label">Category</label>
+
+      <select class="form-select" formControlName="category">
+        <option value="">Select category</option>
+
+        <option *ngFor="let cat of categories" [value]="cat.value">
+          {{ cat.displayName }}
+        </option>
+      </select>
+    </div>
+
+
+    <!-- PUBLISH DATE -->
+    <div class="mb-3">
+      <label class="form-label">Publish At</label>
+      <input
+        type="datetime-local"
+        class="form-control"
+        formControlName="publishAt">
+    </div>
+
+    <!-- KEYWORDS -->
+    <div class="mb-3">
+      <label class="form-label">Keywords</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="keywords"
+        placeholder="comma separated (e.g. spiderman, nyc)">
+
+      <div class="error-text"
+           *ngIf="articleForm.get('keywords')?.errors?.['invalidFormat']">
+        Must be comma separated
+      </div>
+
+    </div>
+
+    <!-- SUBMIT -->
+    <button
+      type="submit"
+      class="btn btn-dark"
+      [disabled]="articleForm.invalid">
+      Create Article
+    </button>
+
+  </form>
+
+</div>

@@ -1,0 +1,45 @@
+.form-container {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+/* LABEL */
+.form-label {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* INPUT */
+.form-control {
+  border: 2px solid black;
+  border-radius: 0;
+  padding: 10px 12px;
+}
+
+.form-control:focus {
+  border-color: black;
+  box-shadow: none;
+  outline: none;
+}
+
+/* ERROR */
+.error-text {
+  font-size: 0.8rem;
+  color: #d90404;
+  margin-top: 4px;
+}
+
+/* BUTTON */
+button.btn-dark {
+  margin-top: 10px;
+  padding: 8px 18px;
+  font-weight: 700;
+}

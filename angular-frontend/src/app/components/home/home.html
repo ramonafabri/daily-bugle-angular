@@ -1,0 +1,223 @@
+@if (breakingNews.length) {
+  <div class="breaking-bar">
+
+    <div class="breaking-label">
+      BREAKING
+    </div>
+
+    <div class="breaking-content">
+      <div class="breaking-text">
+        @for (item of breakingNews; track item) {
+          <span class="breaking-item">
+            {{ item }} &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;
+          </span>
+        }
+      </div>
+    </div>
+
+  </div>
+}
+
+<div class="text-center m-0">
+
+  <div class="bugle-header">
+
+    <div class="bugle-text left">
+      DAILY
+    </div>
+
+    <div class="bugle-center">
+      <img src="images/daily-bugle-icon3.png" alt="Daily Bugle logo">
+    </div>
+
+    <div class="bugle-text right">
+      BUGLE
+    </div>
+
+  </div>
+
+</div>
+
+<div class="page-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+
+    <h4 class="sidebar-title">Categories</h4>
+
+    @for (cat of categories; track cat.value) {
+      <div
+        class="category-item"
+        (click)="goToCategory(cat.value)">
+
+        {{ cat.displayName }}
+      </div>
+    }
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT -->
+  <div class="home-container">
+
+    <div class="hero-text">
+      <p>
+        Welcome to the Daily Bugle — where the truth matters.
+        In a world full of noise, we bring you the stories that count.
+        Because here, the truth always wins.
+      </p>
+    </div>
+
+  <!-- ===== LATEST ===== -->
+  <h3 class="mt-4">Latest Articles</h3>
+
+  @if (!homepage || homepage.latest.length === 0) {
+    <p>No latest articles.</p>
+  }
+
+  <div class="row">
+    @if (homepage) {
+      @for (article of latestArticles; track article.id) {
+        <div class="col-md-4 mb-3">
+          <div class="article-card">
+
+            <h3 class="article-title">
+              {{ article.title }}
+            </h3>
+
+            <p class="article-synopsis">
+              {{ article.synopsis }}
+            </p>
+
+            <div class="article-meta">
+    <span class="category">
+      {{ article.category }}
+    </span>
+              <div class="article-stats">
+
+  <span class="stat-badge">
+    ⭐ {{ article.averageRating }}
+  </span>
+
+                <span class="stat-badge secondary">
+    {{ article.ratingCount }}
+  </span>
+
+              </div>
+
+            <a
+              class="read-more"
+              [routerLink]="['/article', article.id]">
+              Read more →
+            </a>
+
+          </div>
+        </div>
+          </div>
+      }
+    }
+  </div>
+
+  <!-- ===== TOP RATED ===== -->
+  <h3 class="mt-5">Top Rated</h3>
+
+  @if (!homepage || homepage.topRated.length === 0) {
+    <p>No top rated articles.</p>
+  }
+
+  <div class="row">
+    @if (homepage) {
+      @for (article of homepage.topRated; track article.id) {
+        <div class="col-md-4 mb-3">
+          <div class="article-card">
+
+            <h3 class="article-title">
+              {{ article.title }}
+            </h3>
+
+            <p class="article-synopsis">
+              {{ article.synopsis }}
+            </p>
+
+            <div class="article-meta">
+      <span class="category">
+        {{ article.category }}
+      </span>
+            </div>
+
+            <div class="article-stats">
+
+  <span class="stat-badge">
+    ⭐ {{ article.averageRating }}
+  </span>
+
+              <span class="stat-badge secondary">
+    {{ article.ratingCount }}
+  </span>
+
+            </div>
+
+            <a
+              class="read-more"
+              [routerLink]="['/article', article.id]">
+              Read more →
+            </a>
+
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+  <!-- ===== TOP LAST 3 DAYS ===== -->
+  <h3 class="mt-5">Top Last 3 Days</h3>
+
+  @if (!homepage || homepage.topRatedLast3Days?.length === 0) {
+    <p>No articles in last 3 days.</p>
+  }
+
+  <div class="row">
+    @if (homepage) {
+      @for (article of homepage.topRatedLast3Days ?? []; track article.id) {
+        <div class="col-md-4 mb-3">
+          <div class="article-card">
+
+            <h3 class="article-title">
+              {{ article.title }}
+            </h3>
+
+            <p class="article-synopsis">
+              {{ article.synopsis }}
+            </p>
+
+            <div class="article-meta">
+      <span class="category">
+        {{ article.category }}
+      </span>
+            </div>
+
+            <div class="article-stats">
+
+  <span class="stat-badge">
+    ⭐ {{ article.averageRating }}
+  </span>
+
+              <span class="stat-badge secondary">
+    {{ article.ratingCount }}
+  </span>
+
+            </div>
+
+            <a
+              class="read-more"
+              [routerLink]="['/article', article.id]">
+              Read more →
+            </a>
+
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+</div>
+</div>
