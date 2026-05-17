@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -50,8 +47,8 @@ public class Article extends BaseEntity {
     @Column
     private LocalDateTime publishAt;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+        @Enumerated(EnumType.STRING)
+        @Column(nullable = false)
     private Category category;
 
     @ManyToMany(fetch = FetchType.LAZY)

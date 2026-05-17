@@ -3,15 +3,12 @@ package hu.progmasters.dailybugle.repository;
 
 import hu.progmasters.dailybugle.domain.Article;
 import hu.progmasters.dailybugle.domain.Category;
-import hu.progmasters.dailybugle.domain.Keyword;
 import hu.progmasters.dailybugle.domain.Status;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,10 +20,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findByStatus(Status status);
 
     Optional<Article> findByIdAndStatus(Long id, Status status);
-
-    List<Article> findByAuthorIdAndStatus(Long authorId, Status status);
-
-    List<Article> findByAuthor_IdOrderByCreatedAtDesc(Long userId);
 
 
     @Query("""

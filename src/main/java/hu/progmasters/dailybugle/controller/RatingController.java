@@ -1,7 +1,6 @@
 package hu.progmasters.dailybugle.controller;
 
 
-import hu.progmasters.dailybugle.dto.incoming.CommentCommand;
 import hu.progmasters.dailybugle.dto.incoming.RatingCommand;
 import hu.progmasters.dailybugle.service.RatingService;
 import jakarta.validation.Valid;

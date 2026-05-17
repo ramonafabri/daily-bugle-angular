@@ -4,7 +4,6 @@ package hu.progmasters.dailybugle.service;
 import hu.progmasters.dailybugle.domain.*;
 import hu.progmasters.dailybugle.dto.incoming.ArticleCommand;
 import hu.progmasters.dailybugle.dto.outgoing.*;
-import hu.progmasters.dailybugle.exception.AccessDeniedException;
 import hu.progmasters.dailybugle.exception.ArticleNotFoundException;
 import hu.progmasters.dailybugle.repository.ArticleRepository;
 import hu.progmasters.dailybugle.repository.KeywordRepository;

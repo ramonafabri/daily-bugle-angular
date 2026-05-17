@@ -1,9 +1,6 @@
 package hu.progmasters.dailybugle.dto.incoming;
 
 import hu.progmasters.dailybugle.domain.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

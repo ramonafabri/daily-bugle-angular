@@ -1,6 +1,5 @@
 package hu.progmasters.dailybugle.dto.outgoing;
 
-import hu.progmasters.dailybugle.domain.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

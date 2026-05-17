@@ -5,8 +5,6 @@ import hu.progmasters.dailybugle.domain.Article;
 import hu.progmasters.dailybugle.domain.Comment;
 import hu.progmasters.dailybugle.domain.User;
 import hu.progmasters.dailybugle.dto.incoming.CommentCommand;
-import hu.progmasters.dailybugle.exception.ArticleNotFoundException;
-import hu.progmasters.dailybugle.repository.ArticleRepository;
 import hu.progmasters.dailybugle.repository.CommentRepository;
 import hu.progmasters.dailybugle.security.CurrentUserProvider;
 import jakarta.transaction.Transactional;
